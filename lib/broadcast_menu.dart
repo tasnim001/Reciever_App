@@ -11,28 +11,38 @@ class _BroadcastMenuState extends State<BroadcastMenu> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Broadcast Menu")),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
+      appBar: AppBar(title: const Text("Broadcast Menu")),
+      body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center, 
+          crossAxisAlignment: CrossAxisAlignment.center, 
           children: [
-            DropdownButton<String>(
-              value: _selectedOption,
-              items: ['Custom', 'Battery'].map((e) {
-                return DropdownMenuItem(
-                  value: e,
-                  child: Text(e),
-                );
-              }).toList(),
-              onChanged: (value) {
-                setState(() {
-                  _selectedOption = value!;
-                });
-              },
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: DropdownButton<String>(
+                value: _selectedOption,
+                isExpanded: true,
+                items: ['Custom', 'Battery'].map((e) {
+                  return DropdownMenuItem(
+                    value: e,
+                    child: Text(e),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  setState(() {
+                    _selectedOption = value!;
+                  });
+                },
+              ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
-              child: Text("Proceed"),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.yellow, // Yellow button
+                foregroundColor: Colors.black, // Black text
+                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
+              ),
+              child: const Text("Select"),
               onPressed: () {
                 if (_selectedOption == 'Custom') {
                   Navigator.pushNamed(context, '/custom_input');

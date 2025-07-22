@@ -21,11 +21,12 @@ dev_dependencies:
     sdk: flutter
   flutter_lints: ^4.0.0
   flutter_broadcasts: ^0.4.0
-
+  fluttertoast: ^8.2.4 
+  battery_plus: ^5.0.3
 flutter:
   uses-material-design: true
 
-  # ✅ Add your assets here
+  
   assets:
     - assets/sample.mp3
     - assets/sample.mp4

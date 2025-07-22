@@ -4,15 +4,17 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Assignment 2")),
+      appBar: AppBar(title: Text("Reciever App")),
       drawer: Drawer(
         child: ListView(
           children: [
             DrawerHeader(
-              decoration: BoxDecoration(color: Colors.blue),
-              child: Text(
-                'Menu',
-                style: TextStyle(fontSize: 24, color: Colors.white),
+              decoration: BoxDecoration(color: Colors.purple),
+              child: Center(
+                child: Text(
+                  'Menu',
+                  style: TextStyle(fontSize: 24, color: Colors.white),
+                ),
               ),
             ),
             ListTile(
@@ -27,12 +29,12 @@ class HomePage extends StatelessWidget {
             ),
             ListTile(
               leading: Icon(Icons.ondemand_video),
-              title: Text('Video'),
+              title: Text('Video Player'),
               onTap: () => Navigator.pushNamed(context, '/video'),
             ),
             ListTile(
               leading: Icon(Icons.music_note),
-              title: Text('Audio'),
+              title: Text('Audio Player'),
               onTap: () => Navigator.pushNamed(context, '/audio'),
             ),
           ],
@@ -40,7 +42,7 @@ class HomePage extends StatelessWidget {
       ),
       body: Center(
         child: Text(
-          "Select an option from the Drawer Menu",
+          "Tap on the top left to see options",
           style: TextStyle(fontSize: 18),
           textAlign: TextAlign.center,
         ),

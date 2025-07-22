@@ -21,7 +21,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.reciever_app"
-        minSdk = 24                          // ✅ Updated to meet flutter_broadcasts minimum requirement
+        minSdk = 24                         
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName

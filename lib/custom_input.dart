@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_broadcasts/flutter_broadcasts.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class CustomInput extends StatefulWidget {
   @override
@@ -9,23 +9,31 @@ class CustomInput extends StatefulWidget {
 class _CustomInputState extends State<CustomInput> {
   final TextEditingController _controller = TextEditingController();
   String _status = "";
+  String _receivedMessage = "";
 
-  Future<void> _sendCustomBroadcast(String message) async {
-    try {
-      await sendBroadcast(
-        BroadcastMessage(
-          name: 'com.myapp.CUSTOM_ACTION',
-          data: {'message': message},
-        ),
-      );
-      setState(() {
-        _status = "Broadcast sent: $message";
-      });
-    } catch (e) {
-      setState(() {
-        _status = "Failed to send broadcast: $e";
-      });
-    }
+  void _simulateBroadcast(String message) {
+    setState(() {
+      _status = "Broadcast sent: $message";
+      _receivedMessage = message;
+    });
+
+    // Show Toast
+    Fluttertoast.showToast(
+      msg: "Received: $message",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      backgroundColor: Colors.black87,
+      textColor: Colors.white,
+    );
+
+    // Optional: print to console
+    print("Broadcast simulated: $message");
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -36,10 +44,7 @@ class _CustomInputState extends State<CustomInput> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            Text(
-              "Enter a message to broadcast:",
-              style: TextStyle(fontSize: 16),
-            ),
+            Text("Enter a message to broadcast:", style: TextStyle(fontSize: 16)),
             SizedBox(height: 12),
             TextField(
               controller: _controller,
@@ -54,12 +59,20 @@ class _CustomInputState extends State<CustomInput> {
               onPressed: () {
                 final text = _controller.text.trim();
                 if (text.isNotEmpty) {
-                  _sendCustomBroadcast(text);
+                  _simulateBroadcast(text);
                 }
               },
             ),
-            SizedBox(height: 16),
-            Text(_status, style: TextStyle(color: Colors.green)),
+            SizedBox(height: 20),
+            Text(
+              _status,
+              style: TextStyle(color: Colors.green, fontSize: 16),
+            ),
+            SizedBox(height: 20),
+            Text(
+              _receivedMessage.isNotEmpty ? "Displayed on screen: $_receivedMessage" : "",
+              style: TextStyle(color: Colors.blue, fontSize: 18),
+            ),
           ],
         ),
       ),

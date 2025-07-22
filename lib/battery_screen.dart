@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_broadcasts/flutter_broadcasts.dart';
+import 'package:battery_plus/battery_plus.dart';
 
 class BatteryScreen extends StatefulWidget {
   @override
@@ -7,43 +7,40 @@ class BatteryScreen extends StatefulWidget {
 }
 
 class _BatteryScreenState extends State<BatteryScreen> {
-  late BroadcastReceiver _receiver;
-  int _battery = -1;
+  final Battery _battery = Battery();
+  int _batteryLevel = 100;
 
   @override
   void initState() {
     super.initState();
-
-    _receiver = BroadcastReceiver(names: ['android.intent.action.BATTERY_CHANGED']);
-    _receiver.messages.listen((msg) {
-      final data = msg.data;
-      final level = data?['level'];
-      final scale = data?['scale'];
-
-      if (level != null && scale != null) {
-        setState(() => _battery = ((level / scale) * 100).round());
-      }
-    });
-
-    _receiver.start();
+    _initBatteryStream();
+    _updateBatteryLevel(); // Also get initial battery level
   }
 
-  @override
-  void dispose() {
-    _receiver.stop();
-    super.dispose();
+  void _initBatteryStream() {
+    _battery.onBatteryStateChanged.listen((BatteryState state) async {
+      // This event triggers on battery state changes (charging/discharging)
+      await _updateBatteryLevel();
+    });
+  }
+
+  Future<void> _updateBatteryLevel() async {
+    final level = await _battery.batteryLevel;
+    setState(() {
+      _batteryLevel = level;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Battery Status")),
+      appBar: AppBar(
+        title: Text('Live Battery Percentage'),
+      ),
       body: Center(
         child: Text(
-          _battery >= 0
-              ? "Battery Level: $_battery%"
-              : "Listening for battery updates...",
-          style: TextStyle(fontSize: 24),
+          'Battery: $_batteryLevel%',
+          style: TextStyle(fontSize: 32),
         ),
       ),
     );
