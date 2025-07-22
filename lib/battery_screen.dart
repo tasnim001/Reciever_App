@@ -14,12 +14,12 @@ class _BatteryScreenState extends State<BatteryScreen> {
   void initState() {
     super.initState();
     _initBatteryStream();
-    _updateBatteryLevel(); // Also get initial battery level
+    _updateBatteryLevel(); 
   }
 
   void _initBatteryStream() {
     _battery.onBatteryStateChanged.listen((BatteryState state) async {
-      // This event triggers on battery state changes (charging/discharging)
+      
       await _updateBatteryLevel();
     });
   }
